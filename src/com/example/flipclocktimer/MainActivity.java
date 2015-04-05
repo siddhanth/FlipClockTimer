@@ -48,15 +48,15 @@ public class MainActivity extends ActionBarActivity {
 
 	public void flip(int changeNumber) {
 		int upperBackId = R.id.up_back;
-		ImageView up_back = (ImageView) findViewById(upperBackId);
+		final ImageView up_back = (ImageView) findViewById(upperBackId);
 		Drawable img = up_back.getDrawable();
-		ImageView up = (ImageView) findViewById(R.id.up);
+		final ImageView up = (ImageView) findViewById(R.id.up);
 		up.setImageDrawable(img);
-		up.setVisibility(View.VISIBLE);
+		up.setVisibility(View.INVISIBLE);
 
 		final ImageView down = (ImageView) findViewById(R.id.down);
 		// down.getLayoutParams().height = 0;
-		down.setVisibility(View.VISIBLE);
+		down.setVisibility(View.INVISIBLE);
 
 		int resId = getResources().getIdentifier("up_" + changeNumber,
 				"drawable", getPackageName());
@@ -73,7 +73,6 @@ public class MainActivity extends ActionBarActivity {
 				1f, 0f, // Start and end values for the Y axis scaling
 				Animation.RELATIVE_TO_SELF, 0f, // Pivot point of X scaling
 				Animation.RELATIVE_TO_SELF, 1f); // Pivot point of Y scaling
-		anim.setFillAfter(true); // Needed to keep the result of the animation
 		anim.setDuration(100);
 		anim.setAnimationListener(new AnimationListener() {
 
@@ -94,9 +93,28 @@ public class MainActivity extends ActionBarActivity {
 				Animation anim = new ScaleAnimation(1f, 1f, 0f, 1f,
 						Animation.RELATIVE_TO_SELF, 0f,
 						Animation.RELATIVE_TO_SELF, 0f);
-				anim.setFillAfter(true); // Needed to keep the result of the
-											// animation
+
 				anim.setDuration(200);
+				anim.setAnimationListener(new AnimationListener() {
+
+					@Override
+					public void onAnimationStart(Animation animation) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						ImageView back_down = (ImageView) findViewById(R.id.down_back);
+						back_down.setImageDrawable(down.getDrawable());
+					}
+				});
 				down.startAnimation(anim);
 
 			}
